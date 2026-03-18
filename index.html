@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aditya Kanojiya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f7f4;
+      --ink: #1a1814;
+      --muted: #7a7670;
+      --accent: #c8602a;
+      --rule: #e2ddd8;
+      --card: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(249,247,244,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      padding-top: 6rem;
+    }
+
+    .hero-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.2s;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.5s;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.65s;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 2px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--rule);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--ink);
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-num {
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+      margin-left: 0.5rem;
+    }
+
+    /* ── FEATURED PROJECT ── */
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--card);
+      transition: box-shadow 0.3s;
+      margin-bottom: 2rem;
+    }
+
+    .featured-card:hover {
+      box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+    }
+
+    .featured-content {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      border: 1px solid currentColor;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1px;
+      width: fit-content;
+    }
+
+    .featured-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .featured-content p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tech-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 0.25rem 0.7rem;
+      border-radius: 1px;
+      border: 1px solid var(--rule);
+    }
+
+    .featured-visual {
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-decoration {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      gap: 3px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: rgba(200,96,42,0.3);
+      border-top: 2px solid rgba(200,96,42,0.8);
+      border-radius: 1px 1px 0 0;
+      transition: height 0.5s ease;
+    }
+
+    .chart-line {
+      position: absolute;
+      top: 40%;
+      left: 2rem;
+      right: 2rem;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), rgba(200,96,42,0.3));
+    }
+
+    .visual-label {
+      position: absolute;
+      top: 1.5rem;
+      left: 2rem;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .visual-metric {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      text-align: right;
+    }
+
+    .visual-metric .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: white;
+      display: block;
+    }
+
+    .visual-metric .label {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── PROJECT GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 2rem;
+      background: var(--card);
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+
+    .project-card h4 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin: 0.8rem 0 0.6rem;
+    }
+
+    .project-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s, color 0.2s;
+    }
+
+    .card-link:hover { gap: 0.6rem; color: var(--accent); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .skill-group h5 {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .skill-group ul {
+      list-style: none;
+    }
+
+    .skill-group li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-meta {
+      position: sticky;
+      top: 8rem;
+    }
+
+    .about-meta h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-meta .role {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-meta .location {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .contact-inner h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--ink); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero, section { padding-left: 2rem; padding-right: 2rem; }
+      .featured-card { grid-template-columns: 1fr; }
+      .featured-visual { min-height: 200px; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-meta { position: static; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .contact-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Aditya Kanojiya</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Data Science · Machine Learning · Quantitative Analysis</p>
+      <h1>Turning raw data<br>into <em>meaningful</em><br>decisions.</h1>
+      <p class="hero-bio">
+        Graduate student in Data Science at the University at Buffalo. I build end-to-end machine learning systems — from data pipelines and SQL analytics to production-grade models and interactive dashboards. Currently seeking data science internship opportunities.
+      </p>
+      <div class="hero-links">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" class="btn btn-secondary">GitHub →</a>
+        <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" class="btn btn-secondary">LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PROJECT -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Featured Project</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-content">
+        <div>
+          <span class="project-tag">Featured · Quantitative Finance</span>
+          <h3>StockLab</h3>
+          <p>A production-grade multi-factor alpha generation platform covering the full data science lifecycle — ETL pipelines, SQL analytics, feature engineering across 40+ signals, ML modeling with SHAP explainability, walk-forward backtesting, and an interactive Plotly Dash dashboard.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">LightGBM</span>
+            <span class="tech-tag">XGBoost</span>
+            <span class="tech-tag">SHAP</span>
+            <span class="tech-tag">SQLAlchemy</span>
+            <span class="tech-tag">Plotly Dash</span>
+            <span class="tech-tag">yfinance</span>
+            <span class="tech-tag">FRED API</span>
+            <span class="tech-tag">Tableau</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <a href="https://github.com/YOUR_GITHUB/stocklab" target="_blank" class="btn btn-primary">View on GitHub</a>
+          <a href="YOUR_TABLEAU_LINK" target="_blank" class="btn btn-secondary">Live Dashboard →</a>
+        </div>
+      </div>
+      <div class="featured-visual">
+        <span class="visual-label">Equity Curve</span>
+        <div class="visual-metric">
+          <span class="num">+24.3%</span>
+          <span class="label">vs Benchmark</span>
+        </div>
+        <div class="chart-line"></div>
+        <div class="chart-decoration" id="chartBars"></div>
+      </div>
+    </div>
+
+    <!-- OTHER PROJECTS -->
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <span class="project-tag">Machine Learning</span>
+        <h4>Project Two</h4>
+        <p>A placeholder for your second project. Add a one-line description of what it does and the problem it solves.</p>
+        <div class="card-footer">
+          <div class="tech-stack" style="margin:0">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">scikit-learn</span>
+          </div>
+          <a href="https://github.com/YOUR_GITHUB" class="card-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-tag">Data Analysis</span>
+        <h4>Project Three</h4>
+        <p>A placeholder for your third project. Add a one-line description of what it does and the problem it solves.</p>
+        <div class="card-footer">
+          <div class="tech-stack" style="margin:0">
+            <span class="tech-tag">SQL</span>
+            <span class="tech-tag">Tableau</span>
+          </div>
+          <a href="https://github.com/YOUR_GITHUB" class="card-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-tag">NLP</span>
+        <h4>Project Four</h4>
+        <p>A placeholder for your fourth project. Add a one-line description of what it does and the problem it solves.</p>
+        <div class="card-footer">
+          <div class="tech-stack" style="margin:0">
+            <span class="tech-tag">PyTorch</span>
+            <span class="tech-tag">NLP</span>
+          </div>
+          <a href="https://github.com/YOUR_GITHUB" class="card-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="background: var(--card); max-width:100%; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+    <div style="max-width:1100px; margin:0 auto; padding: 6rem 4rem;">
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="section-rule"></div>
+      </div>
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <h5>Languages</h5>
+          <ul>
+            <li>Python</li>
+            <li>SQL</li>
+            <li>R</li>
+            <li>Bash</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h5>Machine Learning</h5>
+          <ul>
+            <li>scikit-learn</li>
+            <li>LightGBM / XGBoost</li>
+            <li>SHAP</li>
+            <li>Random Forest</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h5>Data & Databases</h5>
+          <ul>
+            <li>pandas / NumPy</li>
+            <li>SQLAlchemy</li>
+            <li>PostgreSQL / SQLite</li>
+            <li>ETL Pipelines</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h5>Visualization</h5>
+          <ul>
+            <li>Plotly Dash</li>
+            <li>Tableau</li>
+            <li>Matplotlib / Seaborn</li>
+            <li>Power BI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-meta reveal">
+        <h3>Aditya Kanojiya</h3>
+        <p class="role">M.S. Data Science<br>University at Buffalo</p>
+        <p class="location">📍 Buffalo, New York</p>
+      </div>
+      <div class="about-text reveal">
+        <p>I'm a graduate student in Data Science at the University at Buffalo with a focus on machine learning, quantitative analysis, and building end-to-end data systems that solve real problems.</p>
+        <p>My work sits at the intersection of rigorous statistical thinking and practical engineering. I care about the full pipeline — not just the model, but the data infrastructure, the feature design, the validation strategy, and the way results are communicated to stakeholders.</p>
+        <p>Outside of coursework, I build production-grade projects that mirror real industry workflows — multi-source ETL pipelines, SQL analytical layers, ML models with proper time-series cross-validation, and interactive dashboards. StockLab is my most comprehensive project to date.</p>
+        <p>I'm actively looking for data science internship opportunities where I can contribute to real data problems and keep learning from experienced practitioners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <div>
+        <h3>Let's work together.</h3>
+        <p style="color:var(--muted); margin-top:0.5rem; font-size:0.95rem;">Open to internship opportunities · Available immediately</p>
+      </div>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="mailto:YOUR_EMAIL@gmail.com" class="btn btn-primary">Get in Touch</a>
+        <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" class="btn btn-secondary">LinkedIn →</a>
+        <a href="YOUR_RESUME_LINK" target="_blank" class="btn btn-secondary">Resume →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Aditya Kanojiya</span>
+    <div class="footer-links">
+      <a href="https://github.com/YOUR_GITHUB" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">LinkedIn</a>
+      <a href="mailto:YOUR_EMAIL@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // Generate chart bars
+    const container = document.getElementById('chartBars');
+    const heights = [30,45,38,55,42,60,48,70,52,65,58,75,62,80,68,85,72,78,82,88,76,90,84,92,86,94,89,96,91,95];
+    heights.forEach(h => {
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = h + '%';
+      container.appendChild(bar);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
